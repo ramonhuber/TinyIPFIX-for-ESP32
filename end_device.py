@@ -21,9 +21,15 @@ class End_Device(Device):
             if (device_type == 'esp32'):
                 self.tx = 17
                 self.rx = 16
+                self.xbee_power_pin = machine.Pin(18, machine.Pin.OUT)
+                self.xbee_power_pin.value(1)
+                self.xbee_clear_to_send = machine.Pin(19, machine.Pin.IN)
             elif (device_type == 'superb'):
                 self.tx = 32
                 self.rx = 33
+                self.xbee_power_pin = machine.Pin(22, machine.Pin.OUT)
+                self.xbee_power_pin.value(1)
+                self.xbee_clear_to_send = machine.Pin(23, machine.Pin.IN)
             else:
                 raise Exception("Device Type not known")
             
@@ -41,9 +47,15 @@ class End_Device(Device):
             if (device_type == 'esp32'):
                 self.tx = 17
                 self.rx = 16
+                self.xbee_power_pin = machine.Pin(18, machine.Pin.OUT)
+                self.xbee_power_pin.value(1)
+                self.xbee_clear_to_send = machine.Pin(19, machine.Pin.IN)
             elif (device_type == 'superb'):
                 self.tx = 32
                 self.rx = 33
+                self.xbee_power_pin = machine.Pin(22, machine.Pin.OUT)
+                self.xbee_power_pin.value(1)
+                self.xbee_clear_to_send = machine.Pin(23, machine.Pin.IN)
             else:
                 raise Exception("Device Type not known")
             
@@ -55,6 +67,16 @@ class End_Device(Device):
             self.variable_dict["data_i"] = data_measure_interval
             self.variable_dict["data_records_set_list"] = []
                 
+    
+    def send(self, send):
+        self.xbee_power_pin.value(0)
+        self.__connect_uart()
+        while True:
+            if self.xbee_clear_to_send.value() == 0:
+                break
+        self.uart.write(send)
+        self.xbee_power_pin.value(1)
+    
     
     # data and template sleep in seconds
     def run(self):
