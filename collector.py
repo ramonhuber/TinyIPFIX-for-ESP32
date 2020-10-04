@@ -1,12 +1,10 @@
 # regular python
 import serial
 from time import sleep
-from esp import TinyIPFIX_Helper_Functions
-from esp import Received_Message
+from tinyIPFIX import TinyIPFIX_Helper_Functions
+from tinyIPFIX import Received_Message
 # pip install pyzmq
-import zmq #https://learning-0mq-with-pyzmq.readthedocs.io/en/latest/pyzmq/patterns/pubsub.html
-#https://zeromq.org/socket-api/
-#https://www.programcreek.com/python/example/15021/zmq.SUBSCRIBE
+import zmq
 
 class Collector:
     def __init__(self, serial_port):
@@ -50,8 +48,6 @@ class Collector:
         xonxoff = 0
         rtscts = 0
         self.ser = serial.Serial(port, baudrate, bytesize, parity, stopbits, timeout, xonxoff, rtscts)
-        
-        #port='COM1', baudrate=19200, bytesize=8, parity='N', stopbits=1, timeout=None, xonxoff=0, rtscts=0
         
     def deinit_serial(self):
         self.ser.close()
@@ -136,29 +132,7 @@ class Collector:
     
 serial_port = 'COM5'
 my_collector = Collector(serial_port)
-#my_collector.run(0.5)
-
-
-template_message = Received_Message(b'\x00\x1c\x00\x02\x19\x80\x03\x80\x01\x02\xab\xcd\xab\xcd\x80\x02\x04\xab\xcd\xab\xcd\x80\x03\x13\xab\xcd\xab\xcd')
-template_message = template_message.parse_message()
-template = template_message.records_sets[0]
-
-my_collector.templates.append(template)
-
-data_messages = []
-data_messages.append(Received_Message(b'\x00\x1e\x01\x80\x1b\x00\x02A\xc7\\*2017-08-23-12-48-05'))
-data_messages.append(Received_Message(b'\x00\x1e\x01\x80\x1b\x00\x02A\xc7\\*2017-08-23-12-48-10'))
-data_messages.append(Received_Message(b'\x00\x1e\x01\x80\x1b\x00\x02A\xc7\\*2017-08-23-12-48-15'))
-data_messages.append(Received_Message(b'\x00\x1e\x01\x80\x1b\x00\x02A\xc7\\*2017-08-23-12-48-20'))
-data_messages.append(Received_Message(b'\x00\x1e\x01\x80\x1b\x00\x02A\xc7\\*2017-08-23-12-48-25'))
-data_messages.append(Received_Message(b'\x00\x1e\x01\x80\x1b\x00\x02A\xc7\\*2017-08-23-12-48-30'))
-
-while True:
-    for i in range(6):
-        sleep(5)
-        my_collector.process_read_message(data_messages[i])
-
-#read_messages = [Received_Message().parse_message()]
+my_collector.run(0.1)
 
 
 
