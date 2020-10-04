@@ -3,7 +3,7 @@ import mysql.connector # pip install mysql-connector-python
 import struct
 from time import sleep
 
-class Subscriber:
+class Subscriber_Database:
     
     def __init__(self, topicfilters):
         self.port = "5556"
@@ -58,21 +58,8 @@ class Subscriber:
         
         self.db.commit()
         
-        
-        #mycursor.execute("DROP DATABASE mydatabase")
-        #mycursor.execute("CREATE DATABASE tinyIPFIX_database")
-        #mycursor.execute("DROP TABLE data_128")
-        #mycursor.execute("CREATE TABLE data_128 (source_of_value SMALLINT UNSIGNED, temperature FLOAT, datetime CHAR(19))")
-        #mycursor.execute("CREATE TABLE data_128 (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, source_of_value SMALLINT UNSIGNED, temperature FLOAT, datetime CHAR(19))")
-        #mycursor.execute("SHOW TABLES")
-        #for x in mycursor:
-        #  print(x)
-        #mycursor.execute("select * from data_128")
-        #myresult = mycursor.fetchall()
-        #for x in myresult:
-        #  print(x)
           
                
-sub = Subscriber([128])
+sub = Subscriber_Database([128, 129])	
 sub.subscribe()
 
