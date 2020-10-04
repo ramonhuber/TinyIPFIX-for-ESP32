@@ -1,6 +1,6 @@
 import zmq
 
-class Subscriber:
+class Subscriber_Print:
     
     def __init__(self, topicfilters):
         self.port = "5556"
@@ -17,5 +17,5 @@ class Subscriber:
                 print (string)
         
         
-sub = Subscriber([128])
+sub = Subscriber_Print([128, 129])
 sub.subscribe()
