@@ -148,7 +148,7 @@ class Device:
         enterprise_number = 2882382797
         field_specifier1 = Field_Specifier(enterprise_bit, information_element_identifier, field_length, enterprise_number)
 
-        # create field specifier 2 - humidity
+        # create field specifier 2 - temperature
         enterprise_bit = 1
         information_element_identifier = 2
         field_length = 4
